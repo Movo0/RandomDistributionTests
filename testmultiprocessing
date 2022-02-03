@@ -1,0 +1,14 @@
+import multiprocessing as mp
+
+def my_func(x):
+  x=x**4
+  return x
+
+def main():
+  pool = mp.Pool(mp.cpu_count())
+  result = pool.map(my_func,[i for i in range(0,10**3)])
+
+  print(result)
+
+if __name__ == "__main__":
+  main()
