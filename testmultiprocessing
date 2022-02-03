@@ -6,7 +6,7 @@ def my_func(x):
 
 def main():
   pool = mp.Pool(mp.cpu_count())
-  result = pool.map(my_func,[i for i in range(0,10**3)])
+  result = pool.map(my_func,[i for i in range(0,10**7)])
 
   print(result)
 
