@@ -68,15 +68,9 @@ def Plot(DIS,CHI):
     plt.show()
 
 
-#DIS=[CreateDistribution(i) for i in range(len(methods))]
-DIS=[[] for i in range(len(methods))]
-for i in range(len(methods)):
-    DIS[i]=CreateDistribution(i)
+DIS=[CreateDistribution(i) for i in range(len(methods))]
 
-#CHI=[ChiCalc(DIS[i]) for i in range(len(methods))]
-CHI=[[] for i in range(len(methods))]
-for i in range(len(methods)):
-    CHI[i]=ChiCalc(DIS[i])
+CHI=[ChiCalc(DIS[i]) for i in range(len(methods))]
 
 Output(DIS,CHI)
 Plot(DIS,CHI)
