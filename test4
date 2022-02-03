@@ -6,8 +6,8 @@ import multiprocessing as mp
 
 methods=['Random','Numpy','BadRandom','LCG']
 
-sampals=10000000
-runrange=1000
+sampals=100000
+runrange=100
 
 #Absolut Amount
 AA = [0 for i in range(runrange)]
@@ -19,7 +19,7 @@ def LCG(min,max,seed):
     return int(LCG)
 
 def bad_random(min,max,seed):
-    c=round(max/2+((max+min)/2 * (math.cos(math.pi*math.cos(5000*seed)))))
+    c=round(max/2+((max+min)/2 * (math.cos(math.pi*math.cos(5000*seed**2)))))
     return int(c)
 
 def CreateDistribution(type):
@@ -83,7 +83,6 @@ def CalcMT(DIS):
 
 
 DIS=[[] for i in range(len(methods))]
-#DIS=[CreateDistribution(i) for i in range(len(methods))]
 
 CHI=[[] for i in range(len(methods))]
 

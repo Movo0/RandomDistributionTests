@@ -18,7 +18,7 @@ def LCG(min,max,seed):
     return int(LCG)
 
 def bad_random(min,max,seed):
-    c=round(max/2+((max+min)/2 * (math.cos(math.pi*math.cos(5000*seed)))))
+    c=round(max/2+((max+min)/2 * (math.cos(math.pi*math.cos(5000*seed**2)))))
     return int(c)
 
 def CreateDistribution(type):
