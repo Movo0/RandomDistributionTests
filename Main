@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 methods=['Random','Numpy','BadRandom','LCG']
 
-sampals=1000000
+sampals=10000000
 runrange=100
 
 #Absolut Amount
@@ -23,17 +23,29 @@ def bad_random(min,max,seed):
 
 def CreateDistribution(type):
     AA = [0 for i in range(runrange)]
-    for i in range(sampals):
-        if type==0:
+
+    if type==0:
+        for i in range(sampals):
             x = rn.randint(0, len(AA)-1)
-        if type==1:
+            AA[x] = AA[x]+1
+        return AA
+    if type==1:
+        for i in range(sampals):
             x = np.random.randint(0, len(AA))
-        if type==2:
+            AA[x] = AA[x]+1
+        return AA
+    if type==2:
+        for i in range(sampals):
             x = bad_random(0, len(AA)-1,i)
-        if type==3:
+            AA[x] = AA[x]+1
+        return AA
+    if type==3:
+        for i in range(sampals):
             x = LCG(0, len(AA)-1,i)
-        AA[x] = AA[x]+1
-    return AA
+            AA[x] = AA[x]+1
+        return AA
+
+
 
 def ChiCalc(AA):
     for i in range(runrange):
