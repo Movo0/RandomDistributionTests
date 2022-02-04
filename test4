@@ -6,7 +6,7 @@ import multiprocessing as mp
 
 methods=['Random','Numpy','BadRandom','LCG']
 
-sampals=100000
+sampals=10000000
 runrange=100
 
 #Absolut Amount
@@ -24,24 +24,28 @@ def bad_random(min,max,seed):
 
 def CreateDistribution(type):
     AA = [0 for i in range(runrange)]
-    x=1
-    for i in range(sampals):
-        AA[x] = AA[x]+1
-        if type==0:
+    if type==0:
+        for i in range(sampals):
             x = rn.randint(0, len(AA)-1)
-            continue
-        if type==1:
+            AA[x] = AA[x]+1
+        return AA
+    if type==1:
+        for i in range(sampals):
             x = np.random.randint(0, len(AA))
-            continue
-        if type==2:
+            AA[x] = AA[x]+1
+        return AA
+    if type==2:
+        for i in range(sampals):
             x = bad_random(0, len(AA)-1,i)
-            continue
-        if type==3:
+            AA[x] = AA[x]+1
+        return AA
+    if type==3:
+        for i in range(sampals):
             x = LCG(0, len(AA)-1,i)
-            continue
-    AA[x] = AA[x]+1
-    AA[1] = AA[1]-1
-    return AA
+            AA[x] = AA[x]+1
+        return AA
+
+    
 
 def ChiCalc(AA):
     for i in range(runrange):
@@ -72,13 +76,13 @@ def Plot(DIS,CHI):
     plt.ylim([0.4*sampals/runrange, 1.6*sampals/runrange])
     for i in range(len(methods)):
         x=[j for j in range(runrange)]
-        plt.plot(x, DIS[i], label=methods[i])
+        plt.plot(x, DIS[i], label=methods[i]) 
+    plt.savefig("test.png")
     plt.show()
 
 def CalcMT(DIS):
     pool = mp.Pool(mp.cpu_count())
     DIS = pool.map(CreateDistribution,[i for i in range(len(methods))])
-    print(DIS)
     return DIS
 
 
@@ -92,4 +96,5 @@ if __name__ == "__main__":
     Output(DIS,CHI)
     Plot(DIS,CHI)
     exit()
+
 exit()
