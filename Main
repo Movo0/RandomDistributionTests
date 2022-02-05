@@ -73,7 +73,7 @@ def Plot(DIS,CHI):
     plt.ylim([0, 4])
 
     plt.subplot(122)
-    plt.ylim([0.4*sampals/runrange, 1.6*sampals/runrange])
+    plt.ylim([0.8*sampals/runrange, 1.2*sampals/runrange])
     for i in range(len(methods)):
         x=[j for j in range(runrange)]
         plt.plot(x, DIS[i], label=methods[i])
