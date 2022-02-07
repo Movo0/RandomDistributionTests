@@ -4,11 +4,11 @@ import math
 import matplotlib.pyplot as plt
 from time import process_time
 
-programmStart=process_time()
 methods=['Random','Numpy','BadRandom','LCG']
 
 sampals=10**int(input("Number of Samples in 10**x:"))
 runrange=int(input("Run Range:"))
+programmStart=process_time()
 
 #Absolut Amount
 DIS = [0 for i in range(runrange)]
