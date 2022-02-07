@@ -45,12 +45,12 @@ def CreateDistribution(type):
             AA[x] = AA[x]+1
         return AA
 
-
-
 def ChiCalc(AA):
+    chi=0
     for i in range(runrange):
         x=(AA[i]-(sampals/runrange))
-        chi = (x**2)/(sampals/runrange)
+        chi = (x**2)/(sampals/runrange)+chi
+    chi= chi/runrange
     return float(chi)
 
 def Output(DIS,CHI):

@@ -2,11 +2,13 @@ import random as rn
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+from time import process_time
 
+programmStart=process_time()
 methods=['Random','Numpy','BadRandom','LCG']
 
-sampals=10000000
-runrange=100
+sampals=100000000
+runrange=1000
 
 #Absolut Amount
 AA = [0 for i in range(runrange)]
@@ -45,12 +47,12 @@ def CreateDistribution(type):
             AA[x] = AA[x]+1
         return AA
 
-
-
 def ChiCalc(AA):
+    chi=0
     for i in range(runrange):
         x=(AA[i]-(sampals/runrange))
-        chi = (x**2)/(sampals/runrange)
+        chi = (x**2)/(sampals/runrange)+chi
+    chi= chi/runrange
     return float(chi)
 
 def Output(DIS,CHI):
@@ -79,11 +81,19 @@ def Plot(DIS,CHI):
         plt.plot(x, DIS[i], label=methods[i])
     plt.show()
 
+print("Finished preparation at "+str(process_time()-programmStart))
+print("Start Computing")
 
+DISCalcStart=process_time()
 DIS=[CreateDistribution(i) for i in range(len(methods))]
+print("DIS Calc Time "+str(process_time()-DISCalcStart))
 
+CHICalcStart=process_time()
 CHI=[ChiCalc(DIS[i]) for i in range(len(methods))]
+print("CHI Calc Time "+str(process_time()-CHICalcStart))
+print()
 
 Output(DIS,CHI)
+print("Time took :"+str(process_time()-programmStart))
 Plot(DIS,CHI)
 exit()
