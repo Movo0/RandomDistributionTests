@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import math
 import random as rn
 methods=['BadRandom','LCG','Numpy','Random']
-runrange=100
+
+runrange=int(input("Run Range:"))
 
 def bad_random(min,max,seed):#A bad numbergenerator
     c=round(max/2+((max+min)/2 * (math.cos(math.pi*math.cos(5000*seed**2)))))

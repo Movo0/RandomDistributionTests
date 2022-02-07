@@ -7,8 +7,8 @@ from time import process_time
 programmStart=process_time()
 methods=['Random','Numpy','BadRandom','LCG']
 
-sampals=1000000
-runrange=100
+sampals=10**int(input("Number of Samples in 10**x:"))
+runrange=int(input("Run Range:"))
 
 #Absolut Amount
 DIS = [0 for i in range(runrange)]
@@ -81,19 +81,19 @@ def Plot(DIS,CHI):
         plt.plot(x, DIS[i], label=methods[i])
     plt.show()
 
-print("Finished preparation at "+str(process_time()-programmStart))
+print("Finished preparation at "+str(process_time()-programmStart)+"s")
 print("Start Computing")
 
 DISCalcStart=process_time()
 DIS=[CreateDistribution(i) for i in range(len(methods))]
-print("DIS Calc Time "+str(process_time()-DISCalcStart))
+print("DIS Calc Time "+str(process_time()-DISCalcStart)+"s")
 
 CHICalcStart=process_time()
 CHI=[ChiCalc(DIS[i]) for i in range(len(methods))]
-print("CHI Calc Time "+str(process_time()-CHICalcStart))
+print("CHI Calc Time "+str(process_time()-CHICalcStart)+"s")
 print()
 
 Output(DIS,CHI)
-print("Time took :"+str(process_time()-programmStart))
+print("Time took :"+str(process_time()-programmStart)+"s")
 Plot(DIS,CHI)
 exit()
