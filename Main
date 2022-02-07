@@ -7,11 +7,11 @@ from time import process_time
 programmStart=process_time()
 methods=['Random','Numpy','BadRandom','LCG']
 
-sampals=100000000
-runrange=1000
+sampals=1000000
+runrange=100
 
 #Absolut Amount
-AA = [0 for i in range(runrange)]
+DIS = [0 for i in range(runrange)]
 
 def LCG(min,max,seed):
     a = 7
@@ -24,33 +24,33 @@ def bad_random(min,max,seed):
     return int(c)
 
 def CreateDistribution(type):
-    AA = [0 for i in range(runrange)]
+    DIS = [0 for i in range(runrange)]
 
     if type==0:
         for i in range(sampals):
-            x = rn.randint(0, len(AA)-1)
-            AA[x] = AA[x]+1
-        return AA
+            x = rn.randint(0, len(DIS)-1)
+            DIS[x] = DIS[x]+1
+        return DIS
     if type==1:
         for i in range(sampals):
-            x = np.random.randint(0, len(AA))
-            AA[x] = AA[x]+1
-        return AA
+            x = np.random.randint(0, len(DIS))
+            DIS[x] = DIS[x]+1
+        return DIS
     if type==2:
         for i in range(sampals):
-            x = bad_random(0, len(AA)-1,i)
-            AA[x] = AA[x]+1
-        return AA
+            x = bad_random(0, len(DIS)-1,i)
+            DIS[x] = DIS[x]+1
+        return DIS
     if type==3:
         for i in range(sampals):
-            x = LCG(0, len(AA)-1,i)
-            AA[x] = AA[x]+1
-        return AA
+            x = LCG(0, len(DIS)-1,i)
+            DIS[x] = DIS[x]+1
+        return DIS
 
-def ChiCalc(AA):
+def ChiCalc(DIS):
     chi=0
     for i in range(runrange):
-        x=(AA[i]-(sampals/runrange))
+        x=(DIS[i]-(sampals/runrange))
         chi = (x**2)/(sampals/runrange)+chi
     chi= chi/runrange
     return float(chi)
