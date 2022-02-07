@@ -16,7 +16,7 @@ DIS = [0 for i in range(runrange)]
 def LCG(min,max,seed):
     a = 7
     c = 31
-    LCG = ((a*seed)+c) % runrange
+    LCG = ((a*seed)+c) % max
     return int(LCG)
 
 def bad_random(min,max,seed):
@@ -43,7 +43,7 @@ def CreateDistribution(type):
         return DIS
     if type==3:
         for i in range(sampals):
-            x = LCG(0, len(DIS)-1,i)
+            x = LCG(0, runrange,i)
             DIS[x] = DIS[x]+1
         return DIS
 
