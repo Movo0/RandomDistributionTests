@@ -6,8 +6,10 @@ import multiprocessing as mp
 
 methods=['Random','Numpy','BadRandom','LCG']
 
-sampals=10**int(input("Number of Samples in 10**x:"))
-runrange=int(input("Run Range:"))
+
+if __name__ == "__main__":
+    sampals=10**int(input("Number of Samples in 10**x:"))
+    runrange=int(input("Run Range:"))
 
 #Absolut Amount
 DIS = [0 for i in range(runrange)]
