@@ -88,7 +88,6 @@ def Plot(DIS,CHI):#does the ploting
     plt.ylim([0.8*sampals/runrange, 1.2*sampals/runrange])
     X=[j for j in range(runrange)]
     for i in range(len(methods)):plt.plot(X, DIS[i], label=methods[i])
-    plt.savefig("test.png")
     plt.show()
 
 if __name__ == '__main__':
