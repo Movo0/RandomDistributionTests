@@ -78,6 +78,7 @@ def Plot(DIS,CHI):
     plt.ylim([0.8*sampals/runrange, 1.2*sampals/runrange])
     X=[j for j in range(runrange)]
     for i in range(len(methods)):plt.plot(X, DIS[i], label=methods[i])
+    plt.legend()
     plt.show()
 
 print("Finished preparation at "+str(process_time()-programmStart)+"s")

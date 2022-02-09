@@ -11,7 +11,7 @@ methods=['Random','Numpy','BadRandom','LCG']
 #if __name__ == "__main__":
     #sampals=10**int(input("Number of Samples in 10**x:"))
     #runrange=int(input("Run Range:"))
-samples=10**9
+samples=10**7
 runrange=1000
 
 l= int(len(methods))
@@ -78,8 +78,8 @@ def Output(DIS,CHI):#does the terminal output
     print("Range: "+str(runrange))
 
 def Plot(DIS,CHI):#does the ploting
-    plt.figure(figsize=(9, 2))
-
+    plt.figure(figsize=(18, 6))
+    plt.title(str(samples)+" * "+str(runrange))
     plt.subplot(121)
     plt.bar(methods, CHI)
     plt.ylim([0, 4])
@@ -88,7 +88,7 @@ def Plot(DIS,CHI):#does the ploting
     plt.ylim([0.8*samples/runrange, 1.2*samples/runrange])
     X=[j for j in range(runrange)]
     for i in range(len(methods)):plt.plot(X, DIS[i], label=methods[i])
-    plt.title(str(samples)+" * "+str(runrange))
+    plt.legend(loc='upper right')
     plt.show()
 
 if __name__ == '__main__':
