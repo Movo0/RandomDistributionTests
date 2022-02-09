@@ -50,6 +50,15 @@ def CreateDistributionTimeLim(type,duration):#creates the distribution and puts 
             DIS[x] = DIS[x]+1
     return DIS
 
+def ChiCalc(DIS):#does the chi calculation
+    chi=0
+    for i in range(runrange):
+        x=(DIS[i]-(SumList(DIS)/runrange))
+        chi = (x**2)/(SumList(DIS)/runrange)+chi
+    chi= chi/runrange
+    return float(chi)
+
+
 def SumList(LIST):
     x=0
     for i in range(len(LIST)):
@@ -80,23 +89,27 @@ def TimeLeft(duration):
 
 
 def Plot(DIS,CHI):#does the ploting
-    plt.figure(figsize=(18, 6))
+    plt.figure("CHI Square Test",figsize=(14, 6))
 
-    plt.subplot(121)
+    plt.subplot(131)
     MA=[0,0,0,0]
     for i in range(l):MA[i]=SumList(DIS[i])
     plt.bar(methods, MA)
     plt.title("Amount of runs in "+str(runtime)+" seconds by different RNG")
 
-
-    plt.subplot(122)
+    plt.subplot(132)
     RA =RelativeDistribution(DIS)
     X=[[j for j in range(runrange)]for j in range(l)]
     for i in range(l):plt.plot(X[i], RA[i], label=methods[i])
     plt.ylim([0.8/runrange, 1.2/runrange])
     plt.legend(loc='upper right')
-
     plt.title("The result off "+str(runtime)+" seconds runtime")
+
+    plt.subplot(133)
+    plt.bar(methods, CHI)
+    plt.ylim([0, 4])
+    plt.title("Chi^2 of the different methods")
+
     plt.show()
 
 def Output():#Prints to terminal
@@ -115,5 +128,6 @@ if __name__ == '__main__':
         pool.apply_async(TimeLeft(runtime,))
         DIS=[res.get() for res in multiple_results]#gets data
         pool.close#closes the pool
+    for i in range(len(methods)):CHI[i]=ChiCalc(DIS[i])#does the chi calculation
     Output()
     Plot(DIS,CHI)
