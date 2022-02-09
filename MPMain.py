@@ -11,7 +11,7 @@ methods=['Random','Numpy','BadRandom','LCG']
 #if __name__ == "__main__":
     #sampals=10**int(input("Number of Samples in 10**x:"))
     #runrange=int(input("Run Range:"))
-sampals=10**7
+samples=10**9
 runrange=1000
 
 l= int(len(methods))
@@ -32,22 +32,22 @@ def CreateDistribution(type):#creates the distribution and puts it in an array. 
     DIS = [0 for i in range(runrange)]
     if type==0:
         start=time.time()
-        for i in range(sampals):
+        for i in range(samples):
             x = rn.randint(0, len(DIS)-1)
             DIS[x] = DIS[x]+1
     if type==1:
         start=time.time()
-        for i in range(sampals):
+        for i in range(samples):
             x = np.random.randint(0, len(DIS))
             DIS[x] = DIS[x]+1
     if type==2:
         start=time.time()
-        for i in range(sampals):
+        for i in range(samples):
             x = bad_random(0, len(DIS)-1,i)
             DIS[x] = DIS[x]+1
     if type==3:
         start=time.time()
-        for i in range(sampals):
+        for i in range(samples):
             x = LCG(0, len(DIS)-1,i)
             DIS[x] = DIS[x]+1
     print(methods[type]+" took: "+str(round(time.time()-start))+" s")
@@ -56,8 +56,8 @@ def CreateDistribution(type):#creates the distribution and puts it in an array. 
 def ChiCalc(DIS):#does the chi calculation
     chi=0
     for i in range(runrange):
-        x=(DIS[i]-(sampals/runrange))
-        chi = (x**2)/(sampals/runrange)+chi
+        x=(DIS[i]-(samples/runrange))
+        chi = (x**2)/(samples/runrange)+chi
     chi= chi/runrange
     return float(chi)
 
@@ -74,7 +74,7 @@ def Output(DIS,CHI):#does the terminal output
         print(methods[i]+" Chi")
         print(CHI[i])
         print()
-    print("Number of sampals: "+str(sampals))
+    print("Number of samples: "+str(samples))
     print("Range: "+str(runrange))
 
 def Plot(DIS,CHI):#does the ploting
@@ -85,9 +85,10 @@ def Plot(DIS,CHI):#does the ploting
     plt.ylim([0, 4])
 
     plt.subplot(122)
-    plt.ylim([0.8*sampals/runrange, 1.2*sampals/runrange])
+    plt.ylim([0.8*samples/runrange, 1.2*samples/runrange])
     X=[j for j in range(runrange)]
     for i in range(len(methods)):plt.plot(X, DIS[i], label=methods[i])
+    plt.title(str(samples)+" * "+str(runrange))
     plt.show()
 
 if __name__ == '__main__':
