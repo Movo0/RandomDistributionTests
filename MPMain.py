@@ -88,6 +88,7 @@ def Plot():#does the ploting
     X=[j for j in range(runrange)]
     for i in range(len(methods)):plt.plot(X, DIS[i], label=methods[i])
     plt.legend(loc='upper right')
+    plt.savefig("MPMain.png")
     plt.show()
 
 if __name__ == '__main__':

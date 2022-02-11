@@ -111,6 +111,7 @@ def Plot(): #does the ploting
     plt.title("Cramér's V  (higher is worse)")
 
     plt.tight_layout()
+    plt.savefig("MPTimed.png")
     plt.show()
     if Answer=="Y"or Answer=="y"or Answer=="yes"or Answer=="Yes": # the same just seperat
         plt.figure("Runs per Method")
