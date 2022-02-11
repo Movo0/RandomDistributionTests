@@ -87,14 +87,15 @@ def TimeLeft(duration):#tracks the time and prints it to make sure the code is s
 
 
 def Plot():#does the ploting
+    Answer=input("Also show Plots seperat: ")
+
     plt.figure("CHI Square Test",figsize=(18, 6))
-    plt.tight_layout()
 
     plt.subplot(141)#Subplots the runamounts of each method
     plt.bar(methods, MA)
     plt.title("Amount of runs in "+str(runtime)+" seconds by different RNG")
 
-    plt.subplot(142)#Subplots the Relative distribution 
+    plt.subplot(142)#Subplots the Relative distribution
     RA =RelativeDistribution(DIS)
     X=[[j for j in range(runrange)]for j in range(l)]
     for i in range(l):plt.plot(X[i], RA[i], label=methods[i])
@@ -102,16 +103,44 @@ def Plot():#does the ploting
     plt.legend(loc='upper right')
     plt.title("The result off "+str(runtime)+" seconds runtime")
 
-    plt.subplot(143)#Subplots the Chis
+    plt.subplot(143)#Subplots the Chi's
     plt.bar(methods, CHI)
     plt.ylim([0, 4])
     plt.title("Chi^2 of the different methods")
 
-    plt.subplot(144)#Subplots the Chis
+    plt.subplot(144)#Subplots the PValue
     plt.bar(methods, PVal)
     plt.title("PValue of the different methods")
 
+    plt.tight_layout()
     plt.show()
+    if Answer=="Y"or Answer=="y"or Answer=="yes"or Answer=="Yes":# the same just seperat
+        plt.figure("Runs per Method")
+        plt.bar(methods, MA)
+        plt.title("Amount of runs in "+str(runtime)+" seconds by different RNG")
+        plt.show()
+
+        plt.figure("Relative distribution")
+        RA =RelativeDistribution(DIS)
+        X=[[j for j in range(runrange)]for j in range(l)]
+        for i in range(l):plt.plot(X[i], RA[i], label=methods[i])
+        plt.ylim([0.7/runrange, 1.3/runrange])
+        plt.legend(loc='upper right')
+        plt.title("The result off "+str(runtime)+" seconds runtime")
+        plt.show()
+
+        plt.figure("Chi")
+        plt.bar(methods, CHI)
+        plt.ylim([0, 4])
+        plt.title("Chi^2 of the different methods")
+        plt.show()
+
+        plt.figure("PValue")
+        plt.bar(methods, PVal)
+        plt.title("PValue of the different methods")
+        plt.show()
+
+
 
 def Output():#Prints to terminal
     print()
@@ -134,6 +163,7 @@ if __name__ == '__main__':#Actual calculation start
         pool.apply_async(TimeLeft(runtime,))
         DIS=[res.get() for res in multiple_results]#gets data and stores the values in DIS
         pool.close#closes the pool
+
     for i in range(len(methods)):CHI[i]=ChiCalc(DIS[i])#does the chi calculation
 
     MA=[0 for i in range(l)]
