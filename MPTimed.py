@@ -89,7 +89,7 @@ def TimeLeft(duration):#tracks the time and prints it to make sure the code is s
 def Plot():#does the ploting
     Answer=input("Also show Plots seperat: ")
 
-    plt.figure("CHI Square Test",figsize=(18, 6))
+    plt.figure("CHI Square Test Timed",figsize=(18, 6))
 
     plt.subplot(141)#Subplots the runamounts of each method
     plt.bar(methods, MA)
@@ -149,7 +149,7 @@ def Output():#Prints to terminal
         print("The amount of runs the different RNG achieved in "+str(runtime)+"s by "+methods[i])
         print(MA[i])
         print()
-        print(methods[i]+" Chi")
+        print(methods[i]+" Chi2")
         print(CHI[i])
         print("P Value is")
         print(PVal[i])
