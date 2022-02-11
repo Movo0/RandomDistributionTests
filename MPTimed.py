@@ -4,7 +4,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import multiprocessing as mp
-from scipy import stats
 
 methods=['Random','Numpy','BadRandom','LCG']
 
@@ -55,7 +54,6 @@ def ChiCalc(DIS): #does the chi calculation
     for i in range(runrange):
         x=(DIS[i]-(SumList(DIS)/runrange))
         chi = (x**2)/(SumList(DIS)/runrange)+chi
-    chi= chi/runrange
     return float(chi)
 
 
@@ -105,7 +103,7 @@ def Plot(): #does the ploting
 
     plt.subplot(143) #Subplots the Chi's
     plt.bar(methods, CHI)
-    plt.ylim([0, 4])
+    plt.ylim([0, CHI[0]+CHI[1]])
     plt.title("Chi^2 of the different methods")
 
     plt.subplot(144) #Subplots the Cramér's V
@@ -131,7 +129,7 @@ def Plot(): #does the ploting
 
         plt.figure("Chi")
         plt.bar(methods, CHI)
-        plt.ylim([0, 4])
+        plt.ylim([0, CHI[1]+CHI[2]])
         plt.title("Chi^2 of the different methods")
         plt.show()
 

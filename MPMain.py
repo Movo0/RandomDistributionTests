@@ -11,8 +11,8 @@ methods=['Random','Numpy','BadRandom','LCG']
 #if __name__ == "__main__":
     #sampals=10**int(input("Number of Samples in 10**x:"))
     #runrange=int(input("Run Range:"))
-samples=10**7
-runrange=1000
+samples=500
+runrange=10
 
 l= int(len(methods))
 DIS=[[]for i in range(l)]
@@ -58,10 +58,9 @@ def ChiCalc(DIS):#does the chi calculation
     for i in range(runrange):
         x=(DIS[i]-(samples/runrange))
         chi = (x**2)/(samples/runrange)+chi
-    chi= chi/runrange
     return float(chi)
 
-def Output(DIS,CHI):#does the terminal output
+def Output():#does the terminal output
     print()
     Answer=input("Print Distribution? : ")
     if Answer=="Y"or Answer=="y"or Answer=="yes"or Answer=="Yes":
@@ -77,12 +76,12 @@ def Output(DIS,CHI):#does the terminal output
     print("Number of samples: "+str(samples))
     print("Range: "+str(runrange))
 
-def Plot(DIS,CHI):#does the ploting
+def Plot():#does the ploting
     plt.figure(figsize=(18, 6))
     plt.title(str(samples)+" * "+str(runrange))
     plt.subplot(121)
     plt.bar(methods, CHI)
-    plt.ylim([0, 4])
+    plt.ylim([0, CHI[0]+CHI[1] ])
 
     plt.subplot(122)
     plt.ylim([0.8*samples/runrange, 1.2*samples/runrange])
@@ -98,5 +97,5 @@ if __name__ == '__main__':
         pool.close#closes the pool
     for i in range(len(methods)):CHI[i]=ChiCalc(DIS[i])#does the chi calculation
 
-    Output(DIS,CHI)
-    Plot(DIS,CHI)
+    Output()
+    Plot()
