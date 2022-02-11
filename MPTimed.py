@@ -59,15 +59,13 @@ def ChiCalc(DIS):#does the chi calculation
     return float(chi)
 
 
-def SumList(LIST):
+def SumList(LIST):#summes the list
     x=0
     for i in range(len(LIST)):
         x=x+LIST[i]
     return int(x)
 
-def RelativeDistribution(DIS):
-    MA=[0,0,0,0]
-    for i in range(l):MA[i]=SumList(DIS[i])
+def RelativeDistribution(DIS):#gives back the the relative distribution 
     RA=[[]for i in range(l)]
     for i in range(l):
         X=[0 for i in range(runrange)]
@@ -75,7 +73,7 @@ def RelativeDistribution(DIS):
         RA[i]=X
     return RA
 
-def TimeLeft(duration):
+def TimeLeft(duration):#tracks the time and prints it to make sure the code is still running
     start=time.time()
     updateTime=1
     z=0
