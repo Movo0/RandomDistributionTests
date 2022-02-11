@@ -110,7 +110,7 @@ def Plot(): #does the ploting
 
     plt.subplot(144) #Subplots the Cramér's V
     plt.bar(methods, CrV)
-    plt.title("Cramér's V of the different methods")
+    plt.title("Cramér's V  (higher is worse)")
 
     plt.tight_layout()
     plt.show()
@@ -137,7 +137,7 @@ def Plot(): #does the ploting
 
         plt.figure("Cramér's V")
         plt.bar(methods, CrV)
-        plt.title("Cramér's V of the different methods")
+        plt.title("Cramér's V  (higher is worse)")
         plt.show()
 
 
@@ -154,6 +154,7 @@ def Output(): #Prints to terminal
         print("Cramér's V is")
         print(CrV[i])
         print()
+    print("Lower Cramér's V is better")
 
 if __name__ == '__main__': #Actual calculation start
     with mp.Pool(processes=l+1) as pool: #starts a a process for every method
