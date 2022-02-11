@@ -13,17 +13,17 @@ DIS=[[]for i in range(l)]
 CHI=[0 for i in range(l)]
 
 
-def LCG(min,max,seed):#A purposefully bad random number generator with an pretty good distribution but bad in a bitmap
+def LCG(min,max,seed): #A purposefully bad random number generator with an pretty good distribution but bad in a bitmap
     a = 7
     c = 31
     LCG = ((a*seed)+c) % max
     return int(LCG)
 
-def bad_random(min,max,seed):#A purposefully bad random number generator with an pretty bad distribution but good in a bitmap
+def bad_random(min,max,seed): #A purposefully bad random number generator with an pretty bad distribution but good in a bitmap
     c=round(max/2+((max+min)/2 * (math.cos(math.pi*math.cos(5000*seed**2)))))
     return int(c)
 
-def CreateDistributionTimeLim(type,duration,runrange):#creates the distribution and puts it in an array. Ex. x is 4 and DIS[4] gets one added to it
+def CreateDistributionTimeLim(type,duration,runrange): #creates the distribution and puts it in an array. Ex. x is 4 and DIS[4] gets one added to it
     DIS = [0 for i in range(runrange)]
     i=0
     if type==0:
@@ -50,7 +50,7 @@ def CreateDistributionTimeLim(type,duration,runrange):#creates the distribution 
             DIS[x] = DIS[x]+1
     return DIS
 
-def ChiCalc(DIS):#does the chi calculation
+def ChiCalc(DIS): #does the chi calculation
     chi=0
     for i in range(runrange):
         x=(DIS[i]-(SumList(DIS)/runrange))
@@ -59,13 +59,13 @@ def ChiCalc(DIS):#does the chi calculation
     return float(chi)
 
 
-def SumList(LIST):#summes the list
+def SumList(LIST): #summes the list
     x=0
     for i in range(len(LIST)):
         x=x+LIST[i]
     return int(x)
 
-def RelativeDistribution(DIS):#gives back the the relative distribution 
+def RelativeDistribution(DIS): #gives back the the relative distribution
     RA=[[]for i in range(l)]
     for i in range(l):
         X=[0 for i in range(runrange)]
@@ -73,7 +73,7 @@ def RelativeDistribution(DIS):#gives back the the relative distribution
         RA[i]=X
     return RA
 
-def TimeLeft(duration):#tracks the time and prints it to make sure the code is still running
+def TimeLeft(duration): #tracks the time and prints it to make sure the code is still running
     start=time.time()
     updateTime=1
     z=0
@@ -86,16 +86,16 @@ def TimeLeft(duration):#tracks the time and prints it to make sure the code is s
 
 
 
-def Plot():#does the ploting
+def Plot(): #does the ploting
     Answer=input("Also show Plots seperat: ")
 
     plt.figure("CHI Square Test Timed",figsize=(18, 6))
 
-    plt.subplot(141)#Subplots the runamounts of each method
+    plt.subplot(141) #Subplots the runamounts of each method
     plt.bar(methods, MA)
     plt.title("Amount of runs in "+str(runtime)+" seconds by different RNG")
 
-    plt.subplot(142)#Subplots the Relative distribution
+    plt.subplot(142) #Subplots the Relative distribution
     RA =RelativeDistribution(DIS)
     X=[[j for j in range(runrange)]for j in range(l)]
     for i in range(l):plt.plot(X[i], RA[i], label=methods[i])
@@ -103,18 +103,18 @@ def Plot():#does the ploting
     plt.legend(loc='upper right')
     plt.title("The result off "+str(runtime)+" seconds runtime")
 
-    plt.subplot(143)#Subplots the Chi's
+    plt.subplot(143) #Subplots the Chi's
     plt.bar(methods, CHI)
     plt.ylim([0, 4])
     plt.title("Chi^2 of the different methods")
 
-    plt.subplot(144)#Subplots the PValue
-    plt.bar(methods, PVal)
-    plt.title("PValue of the different methods")
+    plt.subplot(144) #Subplots the Cramér's V
+    plt.bar(methods, CrV)
+    plt.title("Cramér's V of the different methods")
 
     plt.tight_layout()
     plt.show()
-    if Answer=="Y"or Answer=="y"or Answer=="yes"or Answer=="Yes":# the same just seperat
+    if Answer=="Y"or Answer=="y"or Answer=="yes"or Answer=="Yes": # the same just seperat
         plt.figure("Runs per Method")
         plt.bar(methods, MA)
         plt.title("Amount of runs in "+str(runtime)+" seconds by different RNG")
@@ -135,14 +135,14 @@ def Plot():#does the ploting
         plt.title("Chi^2 of the different methods")
         plt.show()
 
-        plt.figure("PValue")
-        plt.bar(methods, PVal)
-        plt.title("PValue of the different methods")
+        plt.figure("Cramér's V")
+        plt.bar(methods, CrV)
+        plt.title("Cramér's V of the different methods")
         plt.show()
 
 
 
-def Output():#Prints to terminal
+def Output(): #Prints to terminal
     print()
     for i in range(l):
         print()
@@ -151,26 +151,26 @@ def Output():#Prints to terminal
         print()
         print(methods[i]+" Chi2")
         print(CHI[i])
-        print("P Value is")
-        print(PVal[i])
+        print("Cramér's V is")
+        print(CrV[i])
         print()
 
-if __name__ == '__main__':#Actual calculation start
-    with mp.Pool(processes=l+1) as pool:#starts a a process for every method
+if __name__ == '__main__': #Actual calculation start
+    with mp.Pool(processes=l+1) as pool: #starts a a process for every method
         runtime=float(input("Runtime(in seconds) = "))
         runrange=int(input("Runrange = "))
-        multiple_results = [pool.apply_async(CreateDistributionTimeLim, (i,runtime,runrange,)) for i in range(4)]#starts async calculations
+        multiple_results = [pool.apply_async(CreateDistributionTimeLim, (i,runtime,runrange,)) for i in range(l)] #starts async calculations
         pool.apply_async(TimeLeft(runtime,))
-        DIS=[res.get() for res in multiple_results]#gets data and stores the values in DIS
-        pool.close#closes the pool
+        DIS=[res.get() for res in multiple_results] #gets data and stores the values in DIS
+        pool.close #closes the pool
 
-    for i in range(len(methods)):CHI[i]=ChiCalc(DIS[i])#does the chi calculation
+    for i in range(len(methods)):CHI[i]=ChiCalc(DIS[i]) #does the chi calculation
 
     MA=[0 for i in range(l)]
-    for i in range(l):MA[i]=SumList(DIS[i])#calculates the runamount in of runs in each method
+    for i in range(l):MA[i]=SumList(DIS[i]) #calculates the runamount in of runs in each method
 
-    PVal=[0 for i in range(l)]
-    for i in range(l):PVal[i]=(1-stats.chi2.cdf(CHI[i],1))#calculates the PValue
+    CrV=[0 for i in range(l)]
+    for i in range(l):CrV[i]=math.sqrt(CHI[i]/MA[i])  #calculates the  Cramér's V
 
     Output()
     Plot()
