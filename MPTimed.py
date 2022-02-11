@@ -4,6 +4,7 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import multiprocessing as mp
+from scipy import stats
 
 methods=['Random','Numpy','BadRandom','LCG']
 
@@ -11,7 +12,6 @@ l= int(len(methods))
 DIS=[[]for i in range(l)]
 CHI=[0 for i in range(l)]
 
-runrange=1000
 
 def LCG(min,max,seed):#A purposefully bad random number generator with an pretty good distribution but bad in a bitmap
     a = 7
@@ -23,7 +23,7 @@ def bad_random(min,max,seed):#A purposefully bad random number generator with an
     c=round(max/2+((max+min)/2 * (math.cos(math.pi*math.cos(5000*seed**2)))))
     return int(c)
 
-def CreateDistributionTimeLim(type,duration):#creates the distribution and puts it in an array. Ex. x is 4 and DIS[4] gets one added to it
+def CreateDistributionTimeLim(type,duration,runrange):#creates the distribution and puts it in an array. Ex. x is 4 and DIS[4] gets one added to it
     DIS = [0 for i in range(runrange)]
     i=0
     if type==0:
@@ -88,46 +88,61 @@ def TimeLeft(duration):
 
 
 
-def Plot(DIS,CHI):#does the ploting
-    plt.figure("CHI Square Test",figsize=(14, 6))
+def Plot():#does the ploting
+    plt.figure("CHI Square Test",figsize=(18, 6))
+    plt.tight_layout()
 
-    plt.subplot(131)
-    MA=[0,0,0,0]
-    for i in range(l):MA[i]=SumList(DIS[i])
+    plt.subplot(141)#Subplots the runamounts of each method
     plt.bar(methods, MA)
     plt.title("Amount of runs in "+str(runtime)+" seconds by different RNG")
 
-    plt.subplot(132)
+    plt.subplot(142)#Subplots the Relative distribution 
     RA =RelativeDistribution(DIS)
     X=[[j for j in range(runrange)]for j in range(l)]
     for i in range(l):plt.plot(X[i], RA[i], label=methods[i])
-    plt.ylim([0.8/runrange, 1.2/runrange])
+    plt.ylim([0.7/runrange, 1.3/runrange])
     plt.legend(loc='upper right')
     plt.title("The result off "+str(runtime)+" seconds runtime")
 
-    plt.subplot(133)
+    plt.subplot(143)#Subplots the Chis
     plt.bar(methods, CHI)
     plt.ylim([0, 4])
     plt.title("Chi^2 of the different methods")
 
+    plt.subplot(144)#Subplots the Chis
+    plt.bar(methods, PVal)
+    plt.title("PValue of the different methods")
+
     plt.show()
 
 def Output():#Prints to terminal
-    MA=[0,0,0,0]
-    for i in range(l):MA[i]=SumList(DIS[i])
     print()
-    print("The amount of runs the different RNG achieved in "+str(runtime)+"s")
-    print(methods)
-    print(MA)
-    print()
+    for i in range(l):
+        print()
+        print("The amount of runs the different RNG achieved in "+str(runtime)+"s by "+methods[i])
+        print(MA[i])
+        print()
+        print(methods[i]+" Chi")
+        print(CHI[i])
+        print("P Value is")
+        print(PVal[i])
+        print()
 
-if __name__ == '__main__':
+if __name__ == '__main__':#Actual calculation start
     with mp.Pool(processes=l+1) as pool:#starts a a process for every method
         runtime=float(input("Runtime(in seconds) = "))
-        multiple_results = [pool.apply_async(CreateDistributionTimeLim, (i,runtime,)) for i in range(4)]#starts async calculations
+        runrange=int(input("Runrange = "))
+        multiple_results = [pool.apply_async(CreateDistributionTimeLim, (i,runtime,runrange,)) for i in range(4)]#starts async calculations
         pool.apply_async(TimeLeft(runtime,))
-        DIS=[res.get() for res in multiple_results]#gets data
+        DIS=[res.get() for res in multiple_results]#gets data and stores the values in DIS
         pool.close#closes the pool
     for i in range(len(methods)):CHI[i]=ChiCalc(DIS[i])#does the chi calculation
+
+    MA=[0 for i in range(l)]
+    for i in range(l):MA[i]=SumList(DIS[i])#calculates the runamount in of runs in each method
+
+    PVal=[0 for i in range(l)]
+    for i in range(l):PVal[i]=(1-stats.chi2.cdf(CHI[i],1))#calculates the PValue
+
     Output()
-    Plot(DIS,CHI)
+    Plot()
