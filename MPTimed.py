@@ -87,13 +87,13 @@ def TimeLeft(duration): #tracks the time and prints it to make sure the code is 
 def Plot(): #does the ploting
     Answer=input("Also show Plots seperat: ")
 
-    plt.figure("CHI Square Test Timed",figsize=(18, 6))
+    plt.figure("CHI Square Test Timed",figsize=(14, 10))
 
-    plt.subplot(141) #Subplots the runamounts of each method
+    plt.subplot(221) #Subplots the runamounts of each method
     plt.bar(methods, MA)
     plt.title("Amount of runs in "+str(runtime)+" seconds by different RNG")
 
-    plt.subplot(142) #Subplots the Relative distribution
+    plt.subplot(222) #Subplots the Relative distribution
     RA =RelativeDistribution(DIS)
     X=[[j for j in range(runrange)]for j in range(l)]
     for i in range(l):plt.plot(X[i], RA[i], label=methods[i])
@@ -101,17 +101,17 @@ def Plot(): #does the ploting
     plt.legend(loc='upper right')
     plt.title("The result off "+str(runtime)+" seconds runtime")
 
-    plt.subplot(143) #Subplots the Chi's
+    plt.subplot(223) #Subplots the Chi's
     plt.bar(methods, CHI)
     plt.ylim([0, CHI[0]+CHI[1]])
     plt.title("Chi^2 of the different methods")
 
-    plt.subplot(144) #Subplots the Cramér's V
+    plt.subplot(224) #Subplots the Cramér's V
     plt.bar(methods, CrV)
     plt.title("Cramér's V  (higher is worse)")
 
     plt.tight_layout()
-    plt.savefig("MPTimed.png")
+    plt.savefig("MP.png")
     plt.show()
     if Answer=="Y"or Answer=="y"or Answer=="yes"or Answer=="Yes": # the same just seperat
         plt.figure("Runs per Method")
